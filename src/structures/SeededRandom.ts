@@ -11,7 +11,7 @@ export default class SeededRandom {
 		this.reseed(initializer);
 	}
 
-	public reseed(initializer?: string | number) {
+	public reseed(initializer?: string | number): void {
 		const seedStr = initializer
 			? typeof initializer === 'string'
 				? initializer
@@ -30,21 +30,22 @@ export default class SeededRandom {
 	}
 
 	// Rolls a 1 in x chance. Same behavior as roll() in osjs.
-	public roll(max: number) {
+	public roll(max: number): boolean {
 		return this.randInt(1, max) === 1;
 	}
 
 	// Rolls a number from min to max inclusive.
-	public randInt(min: number, max: number) {
+	public randInt(min: number, max: number): number {
 		const range = max - min + 1;
 		return Math.trunc(range * this.rand() + min);
 	}
 
 	// Rolls a float from min to max exclusive.
-	public randFloat(min: number, max: number) {
+	public randFloat(min: number, max: number): number {
 		const range = max - min;
 		return range * this.rand() + min;
 	}
+
 	// xmur3 hash function. Generate good seeds from small inputs
 	public xmur3(input: string): () => number {
 		const str = input;
@@ -52,7 +53,7 @@ export default class SeededRandom {
 		let h = 1779033703 ^ str.length;
 		for (let i = 0; i < str.length; i++)
 			(h = Math.imul(h ^ str.charCodeAt(i), 3432918353)), (h = (h << 13) | (h >>> 19));
-		return function () {
+		return () => {
 			h = Math.imul(h ^ (h >>> 16), 2246822507);
 			h = Math.imul(h ^ (h >>> 13), 3266489909);
 			return (h ^= h >>> 16) >>> 0;
@@ -61,7 +62,7 @@ export default class SeededRandom {
 
 	// This is the actual pRNG. Again, use the PractRand library to test this
 	public sfc32(a: number, b: number, c: number, d: number): () => number {
-		return function () {
+		return () => {
 			a >>>= 0;
 			b >>>= 0;
 			c >>>= 0;
