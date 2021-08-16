@@ -8,6 +8,10 @@ export default class SeededRandom {
 
 	// sfc32 implementation. Can test randomness with PractRand: http://pracrand.sourceforge.net/
 	constructor(initializer?: string | number) {
+		this.reseed(initializer);
+	}
+
+	public reseed(initializer?: string | number) {
 		const seedStr = initializer
 			? typeof initializer === 'string'
 				? initializer
