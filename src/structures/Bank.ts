@@ -29,14 +29,16 @@ export default class Bank {
 		return this.bank[typeof item === 'string' ? itemID(item) : item] ?? 0;
 	}
 
-	public addItem(item: number, quantity = 1): this {
+	public addItem(item: number, _quantity = 1): this {
+		const quantity = Math.floor(_quantity);
 		if (quantity < 1) return this;
 		if (this.bank[item]) this.bank[item] += quantity;
 		else this.bank[item] = quantity;
 		return this;
 	}
 
-	public removeItem(item: number | string, quantity = 1): this {
+	public removeItem(item: number | string, _quantity = 1): this {
+		const quantity = Math.floor(_quantity);
 		const currentValue = this.bank[item];
 
 		if (typeof currentValue === 'undefined') return this;
